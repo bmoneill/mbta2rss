@@ -27,7 +27,7 @@ def print_rss_item(title='Title Placeholder', desc='Description Placeholder',
     print('<item>')
     print('<title>' + title + '</title>')
     print('<description><![CDATA[' + desc + ']]></description>')
-    print('<pubDate>' + date + '</pubdate>')
+    print('<pubDate>' + date + '</pubDate>')
     for category in categories:
         print('<category>' + category + '</category>')
     print('</item>')
