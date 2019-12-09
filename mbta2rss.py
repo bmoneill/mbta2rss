@@ -45,11 +45,14 @@ def get_alerts(route='*', res='out.xml', local=False):
 
     for alert in alerts['data']:
         attributes=alert['attributes']
+        title=''
         description=''
         effect=''
         routes_affected=''
         categories=[]
         affected_ledger=[]
+
+        header='<h2>' + attributes['header'] + '</h3>'
 
         if attributes['description'] != None:
             description = '<h3>' + attributes['description'] + '</h3>'
@@ -70,7 +73,11 @@ def get_alerts(route='*', res='out.xml', local=False):
             routes_affected = '<h3>Routes affected:</h3><ul>' + routes_affected
             routes_affected += '</ul>'
 
-        print_rss_item(attributes['header'], description + effect + routes_affected, attributes['created_at'], categories)
+        title=attributes['header']
+        if len(title) > 100:
+            title = title[:100]
+
+        print_rss_item(title, header + description + effect + routes_affected, attributes['created_at'], categories)
 
 print_rss_channel_start()
 get_alerts()
