@@ -3,6 +3,7 @@
 # Author: Ben O'Neill <ben@benoneill.xyz>
 # License: GNU GPLv3
 
+import args
 import json
 import requests
 
@@ -37,11 +38,8 @@ def retrieve_from_api(req=''):
     #with open(req + '.json') as f:
     #    return json.load(f)
 
-def get_alerts(route='*', res='out.xml', local=False):
-    if route == '*':
-        alerts = retrieve_from_api('alerts')
-    else:
-        alerts = retrieve_from_api('alerts/routes/' + route)
+def get_alerts(route='*'):
+    alerts = retrieve_from_api('alerts')
 
     for alert in alerts['data']:
         attributes=alert['attributes']
@@ -51,6 +49,7 @@ def get_alerts(route='*', res='out.xml', local=False):
         routes_affected=''
         categories=[]
         affected_ledger=[]
+        route_affected=False # The route we want if route != '*'
 
         header='<h2>' + attributes['header'] + '</h3>'
 
@@ -63,6 +62,8 @@ def get_alerts(route='*', res='out.xml', local=False):
         for affected in attributes['informed_entity']:
             if 'route' in affected:
                 if affected['route'] not in affected_ledger:
+                    if affected['route'] == route:
+                        route_affected = True
                     routes_affected += '<li>' + affected['route'] + '</li>'
                     categories.append(affected['route'])
                     affected_ledger.append(affected['route'])
@@ -77,8 +78,17 @@ def get_alerts(route='*', res='out.xml', local=False):
         if len(title) > 100:
             title = title[:100]
 
-        print_rss_item(title, header + description + effect + routes_affected, attributes['created_at'], categories)
+        if (route_affected and route != '*') or route == '*':
+            print_rss_item(title, header + description + effect + routes_affected, attributes['created_at'], categories)
 
-print_rss_channel_start()
-get_alerts()
-print_rss_channel_end()
+if __name__ == '__main__':
+    print_rss_channel_start()
+    if 'k' in args.flags:
+        pass # TODO API key
+    if '--route' in args.assignments:
+        print("Retrieving for route " + args.assignments['--route'][0])
+        route = args.assignments['--route'][0]
+        get_alerts(route)
+    else:
+        get_alerts()
+    print_rss_channel_end()
