@@ -7,7 +7,7 @@ feed will show current schedule and alerts for different routes.
 ## Features
 
 - [X] Generate an RSS feed containing alerts, neatly formatted.
-- [ ] Filters for certain routes in RSS feed using command-line options.
+- [X] Filters for certain routes in RSS feed using command-line options.
 - [ ] Allow the user to use an API key.
 
 ## Usage
