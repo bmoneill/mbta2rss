@@ -2,7 +2,9 @@
 
 This software will generate an RSS feed using the [MBTA
 API](https://www.mbta.com/developers/v3-api) and Python 3. The
-feed will show current schedule and alerts for different routes.
+feed will show current schedule and alerts for different routes. This
+is very helpful if you want to send notifications to your phone as an
+email or via SMS.
 
 ## Features
 
@@ -14,7 +16,7 @@ feed will show current schedule and alerts for different routes.
 
 ### Unix-like Systems (macOS, GNU/Linux, \*BSD, WSL...)
 
-Run `python mbta2rss.py > out.xml`. Then you can open the XML file in your
+Run `python mbta2rss.py >out.xml`. Then you can open the XML file in your
 favorite RSS feed reader. It is also possible to set up a cron job to update it
 every few hours on a server by adding the command to your crontab (with proper
 paths of course).
@@ -31,5 +33,5 @@ issue or email me.
 
 ## Contributing
 
-Please feel free to contribute. Email me or submit a pull request. Also, the
-license is GNU GPL v3 so you can fork this.
+Please feel free to contribute. Email me patch files or submit a pull request.
+Also, the license is GNU GPL v3 so you can fork this and use it for any purpose.
