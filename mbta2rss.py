@@ -9,15 +9,15 @@ import requests
 
 def print_rss_channel_start(title='MBTA Unofficial Alert Feed',
         desc='An unofficial, gratis RSS alert feed for MBTA users.',
-        lang='en-us'):
+        lang='en-us', link='https://gitlab.com/swegbun/mbta-rss'):
     print('<?xml version="1.0" encoding="utf-8"?>')
     print('<?xml-stylesheet type="text/css" href="rss.css" ?>')
     print('<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">')
     print('<channel>')
     print('<title>' + title + '</title>')
-    print('<link>https://gitlab.com/swegbun/mbta-rss</link>')
+    print('<link>' + link + '</link>')
     print('<description>' + desc + '</description>')
-    print('<language>' + lang + '</language>')
+    print('<language>' + lang + '</language>') # FIXME does the API even support any other languages?
 
 def print_rss_channel_end():
     print('</channel>')
