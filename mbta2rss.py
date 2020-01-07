@@ -5,7 +5,6 @@
 # GNU GPL v3.
 
 import argparse
-import json
 import requests
 
 def print_rss_channel_start(title='MBTA Unofficial Alert Feed',
