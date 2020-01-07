@@ -38,11 +38,15 @@ def retrieve_from_api(req):
     return requests.get('https://api-v3.mbta.com/' + req).json()
 
 def get_alerts(key, route):
-    if key == None:
-        alerts = retrieve_from_api('alerts')
-    else:
-        alerts = retrieve_from_api('alerts?api_key=' + key)
-    
+    req_str = 'alerts'
+    if key != None:
+        req_str += '?api_key=' + key
+    if route != None:
+        req_str += '?filter[route]=' + route
+
+
+    alerts = retrieve_from_api(req_str)
+    print(alerts)
     for alert in alerts['data']:
         attributes = alert['attributes']
         title = ''
@@ -61,15 +65,6 @@ def get_alerts(key, route):
         if attributes['effect'] != None:
             effect = '<h3>Effect: ' + attributes['effect'] + '</h3>'
 
-        for affected in attributes['informed_entity']:
-            if 'route' in affected:
-                if affected['route'] not in affected_ledger:
-                    if affected['route'] == route:
-                        route_affected = True
-                    routes_affected += '<li>' + affected['route'] + '</li>'
-                    categories.append(affected['route'])
-                    affected_ledger.append(affected['route'])
-
         if routes_affected == '':
             routes_affected = '<p>Routes affected: None or N/A</p>'
         else:
@@ -80,8 +75,7 @@ def get_alerts(key, route):
         if len(title) > 100:
             title = title[:100] # prevent really long titles, kind of sloppy but it works I guess
 
-        if (route_affected and route != None) or route == None:
-            print_rss_item(title, header + description + effect + routes_affected, attributes['created_at'], categories)
+        print_rss_item(title, header + description + effect + routes_affected, attributes['created_at'], categories)
 
 if __name__ == '__main__':
     print_rss_channel_start()
