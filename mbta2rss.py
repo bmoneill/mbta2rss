@@ -44,16 +44,16 @@ def get_alerts(key, route):
         alerts = retrieve_from_api('alerts?api_key=' + key)
     
     for alert in alerts['data']:
-        attributes=alert['attributes']
-        title=''
-        description=''
-        effect=''
-        routes_affected=''
-        categories=[]
-        affected_ledger=[]
-        route_affected=False # The route we want if route != '*'
+        attributes = alert['attributes']
+        title = ''
+        description = ''
+        effect = ''
+        routes_affected = ''
+        categories = []
+        affected_ledger = []
+        route_affected = False # The route we want if route != '*'
 
-        header='<h2>' + attributes['header'] + '</h3>'
+        header = '<h2>' + attributes['header'] + '</h3>'
 
         if attributes['description'] != None:
             description = '<h3>' + attributes['description'] + '</h3>'
