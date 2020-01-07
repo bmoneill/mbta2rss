@@ -1,7 +1,8 @@
 # File: mbta2rss.py
 # Description: This pulls down all the MBTA alerts and prints them out.
 # Author: Ben O'Neill <ben@benoneill.xyz>
-# License: GNU GPLv3
+# Copyright: Copyright (C) 2019-2020 Ben O'Neill <benoneill.xyz>. Licensed under
+# GNU GPL v3.
 
 import argparse
 import json
