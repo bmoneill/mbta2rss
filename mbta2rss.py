@@ -38,15 +38,17 @@ def retrieve_from_api(req):
     return requests.get('https://api-v3.mbta.com/' + req).json()
 
 def get_alerts(key, route):
+    character = '?'
     req_str = 'alerts'
     if key != None:
-        req_str += '?api_key=' + key
+        req_str += character + 'api_key=' + key
+        character = '&'
     if route != None:
-        req_str += '?filter[route]=' + route
+        req_str += character + 'filter[route]=' + route
+        character = '&'
 
 
     alerts = retrieve_from_api(req_str)
-    print(alerts)
     for alert in alerts['data']:
         attributes = alert['attributes']
         title = ''
