@@ -10,7 +10,7 @@ email or via SMS.
 
 - [X] Generate an RSS feed containing alerts, neatly formatted.
 - [X] Filters for certain routes in RSS feed using command-line options.
-- [ ] Allow the user to use an API key.
+- [X] Allow the user to use an API key.
 
 ## Usage
 
@@ -19,7 +19,9 @@ email or via SMS.
 Run `python mbta2rss.py >out.xml`. Then you can open the XML file in your
 favorite RSS feed reader. It is also possible to set up a cron job to update it
 every few hours on a server by adding the command to your crontab (with proper
-paths of course).
+paths of course). For a specific route, run `python mbta2rss.py -r Red >out.xml`
+for the Red Line, as an example. To use an API key, run `python mbta2rss.py -k
+KEY`. These options can be combined.
 
 ## Important Notes
 

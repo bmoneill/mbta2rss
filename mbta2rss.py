@@ -3,7 +3,7 @@
 # Author: Ben O'Neill <ben@benoneill.xyz>
 # License: GNU GPLv3
 
-import args
+import argparse
 import json
 import requests
 
@@ -33,14 +33,15 @@ def print_rss_item(title='Title Placeholder', desc='Description Placeholder',
         print('<category>' + category + '</category>')
     print('</item>')
 
-def retrieve_from_api(req=''):
+def retrieve_from_api(req):
     return requests.get('https://api-v3.mbta.com/' + req).json()
-    #with open(req + '.json') as f:
-    #    return json.load(f)
 
-def get_alerts(route='*'):
-    alerts = retrieve_from_api('alerts')
-
+def get_alerts(key, route):
+    if key == None:
+        alerts = retrieve_from_api('alerts')
+    else:
+        alerts = retrieve_from_api('alerts?api_key=' + key)
+    
     for alert in alerts['data']:
         attributes=alert['attributes']
         title=''
@@ -76,19 +77,18 @@ def get_alerts(route='*'):
 
         title=attributes['header']
         if len(title) > 100:
-            title = title[:100]
+            title = title[:100] # prevent really long titles, kind of sloppy but it works I guess
 
-        if (route_affected and route != '*') or route == '*':
+        if (route_affected and route != None) or route == None:
             print_rss_item(title, header + description + effect + routes_affected, attributes['created_at'], categories)
 
 if __name__ == '__main__':
     print_rss_channel_start()
-    if 'k' in args.flags:
-        pass # TODO API key
-    if '--route' in args.assignments:
-        print("Retrieving for route " + args.assignments['--route'][0])
-        route = args.assignments['--route'][0]
-        get_alerts(route)
-    else:
-        get_alerts()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-k')
+    parser.add_argument('-r')
+    args = parser.parse_args()
+    key = args.k
+    route = args.r
+    get_alerts(key, route)
     print_rss_channel_end()
