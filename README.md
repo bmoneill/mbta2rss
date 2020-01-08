@@ -25,8 +25,8 @@ KEY`. These options can be combined.
 
 ## Important Notes
 
-Don't abuse this: I'm not using an API key so there are heavy rate limits. If
-you run this too many times, your IP will probably be banned from the service.
+Don't run too frequently without an API key. There are heavy rate limits. If you
+run this too many times, your IP could be banned from the service.
 
 ## Bugs
 
