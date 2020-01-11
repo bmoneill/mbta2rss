@@ -30,7 +30,7 @@ An example of emailing a digest using the md2mail filter script and msmtp (a
 sendmail-like program):
 
 	mbta2rss -o md -k "$MYAPIKEY" | md2mail "$FROM" "$TO" | msmtp -a \
-	"$MSMTPACCOUNT" -t "$MAILRECIPIENT"
+	"$MSMTPACCOUNT" -t "$TO"
 
 ## Important Notes
 
