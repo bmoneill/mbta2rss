@@ -84,9 +84,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-k')
     parser.add_argument('-r')
-    print_rss_channel_start()
     args = parser.parse_args()
     key = args.k
     route = args.r
+
+    print_rss_channel_start()
     get_alerts(key, route)
     print_rss_channel_end()
