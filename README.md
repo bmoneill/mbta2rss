@@ -12,6 +12,7 @@ email or via SMS.
 - [X] Filters for certain routes in RSS feed using command-line options.
 - [X] Allow the user to use an API key.
 - [X] Export to Markdown instead of RSS.
+- [ ] Only include alerts published after a certain time.
 
 ## Usage
 
@@ -24,18 +25,35 @@ paths of course). For a specific route, run `python mbta2rss.py -r Red >out.xml`
 for the Red Line, as an example. To use an API key, run `python mbta2rss.py -k
 KEY`. These options can be combined.
 
+### Use Cases
+
+* Set up a cron job to update alerts feed every hour or so.
+* Email alerts to you (for the route(s) you take or all routes).
+* Post alerts on a webpage.
+
 ### Emailing Digests
 
-An example of emailing a digest using the md2mail filter script and msmtp (a
-sendmail-like program):
+An example of emailing a digest using the `md2mail` filter script and `msmtp` (a
+`sendmail`-like program):
 
 	mbta2rss -o md -k "$MYAPIKEY" | md2mail "$FROM" "$TO" | msmtp -a \
 	"$MSMTPACCOUNT" -t "$TO"
 
+### Publishing Alerts
+	
+It is possible to make a HTML webpage (no CSS included by default) for the web
+using the Markdown output format and piping it into a Markdown to HTML filter
+like `smu`.
+
+	mbta2rss -o md -k "$MYAPIKEY" | smu >out.html
+
 ## Important Notes
 
-Don't run too frequently without an API key. There are heavy rate limits. If you
-run this too many times, your IP could be banned from the service.
+1. Don't run too frequently without an API key. There are heavy rate limits. If
+   you run this too many times, your IP could be banned from the service.
+2. If you publish anything containing content related to this, make sure it is
+   clear this is unofficial and not officially affiliated with the MBTA. They
+   have a [license agreement](https://www.mass.gov/files/documents/2017/10/27/develop_license_agree_0.pdf).
 
 ## Bugs
 
