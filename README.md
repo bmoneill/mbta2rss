@@ -19,17 +19,25 @@ email or via SMS.
 ### Basics
 
 Run `python mbta2rss.py >out.xml`. Then you can open the XML file in your
-favorite RSS feed reader. It is also possible to set up a cron job to update it
-every few hours on a server by adding the command to your crontab (with proper
-paths of course). For a specific route, run `python mbta2rss.py -r Red >out.xml`
-for the Red Line, as an example. To use an API key, run `python mbta2rss.py -k
-KEY`. These options can be combined.
+favorite RSS feed reader.
+
+### Options
+
+* `-k key`: Use an API key
+* `-o fmt`: Set output format (rss or md, default set to rss)
+* `-r route`: Set route to look for
 
 ### Use Cases
 
 * Set up a cron job to update alerts feed every hour or so.
 * Email alerts to you (for the route(s) you take or all routes).
 * Post alerts on a webpage.
+
+### Cron-based Alert Updater
+
+Add the following to your crontab:
+
+	0 * * * * /usr/bin/mbta2rss -k "$MYAPIKEY" >$HOSTDIR/rss.xml
 
 ### Emailing Digests
 
