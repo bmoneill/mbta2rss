@@ -10,7 +10,7 @@ import argparse
 import requests
 
 def print_rss_channel_start(title='MBTA Unofficial Alert Feed',
-        desc='An unofficial, gratis RSS alert feed for MBTA users.',
+        desc='An unofficial, gratis RSS alert feed for MBTA riders.',
         lang='en-us', link='https://gitlab.com/swegbun/mbta-rss'):
     print('<?xml version="1.0" encoding="utf-8"?>')
     print('<?xml-stylesheet type="text/css" href="rss.css" ?>')
@@ -35,10 +35,20 @@ def print_rss_item(title='Title Placeholder', desc='Description Placeholder',
         print('<category>' + category + '</category>')
     print('</item>')
 
+def print_md_start(title='MBTA Unofficial Alert Feed',
+        desc='An unofficial, gratis RSS alert feed for MBTA riders.'):
+    print('# ' + title)
+    print(desc)
+
+def print_md_item(title='Title Placeholder', desc='Description Placeholder',
+        date='', categories=''):
+    print('## ' + title + '(' + date + ')' + '\n')
+    print(desc + '\n\n')
+
 def retrieve_from_api(req):
     return requests.get('https://api-v3.mbta.com/' + req).json()
 
-def get_alerts(key, route):
+def get_alerts(key, outfmt, route):
     character = '?'
     req_str = 'alerts'
     if key != None:
@@ -48,46 +58,53 @@ def get_alerts(key, route):
         req_str += character + 'filter[route]=' + route
         character = '&'
 
-
     alerts = retrieve_from_api(req_str)
     for alert in alerts['data']:
         attributes = alert['attributes']
         title = ''
         description = ''
         effect = ''
-        routes_affected = ''
         categories = []
         affected_ledger = []
         route_affected = False # The route we want if route != '*'
 
-        header = '<h2>' + attributes['header'] + '</h3>'
+        header = attributes['header']
 
         if attributes['description'] != None:
-            description = '<h3>' + attributes['description'] + '</h3>'
+            description = attributes['description']
+        else:
+            description = ''
 
         if attributes['effect'] != None:
-            effect = '<h3>Effect: ' + attributes['effect'] + '</h3>'
-
-        if routes_affected == '':
-            routes_affected = '<p>Routes affected: None or N/A</p>'
-        else:
-            routes_affected = '<h3>Routes affected:</h3><ul>' + routes_affected
-            routes_affected += '</ul>'
+            effect = 'Effect: ' + attributes['effect']
 
         title=attributes['header']
         if len(title) > 100:
             title = title[:100] # prevent really long titles, kind of sloppy but it works I guess
 
-        print_rss_item(title, header + description + effect + routes_affected, attributes['created_at'], categories)
+        if outfmt == None or outfmt == 'rss':
+            print_rss_item(title, '<h2>' +  header + '</h2>' + '<h3>' + description + '</h3>' + '<p>' + effect + '</p>', attributes['created_at'], categories)
+            return
+        
+        if outfmt == 'md':
+            print_md_item(title, header + '\n\n' + description, attributes['created_at'])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-k')
+    parser.add_argument('-o')
     parser.add_argument('-r')
     args = parser.parse_args()
     key = args.k
+    outfmt = args.o
     route = args.r
 
-    print_rss_channel_start()
-    get_alerts(key, route)
-    print_rss_channel_end()
+    if outfmt == None or outfmt == 'rss':
+        print_rss_channel_start()
+    if outfmt == 'md':
+        print_md_start()
+
+    get_alerts(key, outfmt, route)
+
+    if outfmt == None or outfmt == 'rss':
+        print_rss_channel_end()
