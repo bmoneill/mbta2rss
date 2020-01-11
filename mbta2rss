@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # File: mbta2rss.py
 # Description: This pulls down all the MBTA alerts and prints them out.
 # Author: Ben O'Neill <ben@benoneill.xyz>
