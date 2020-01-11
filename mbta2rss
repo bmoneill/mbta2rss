@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# File: mbta2rss.py
+# File: mbta2rss
 # Description: This pulls down all the MBTA alerts and prints them out.
 # Author: Ben O'Neill <ben@benoneill.xyz>
 # Copyright: Copyright (C) 2019-2020 Ben O'Neill <benoneill.xyz>. Licensed under
@@ -81,10 +81,10 @@ def get_alerts(key, route):
         print_rss_item(title, header + description + effect + routes_affected, attributes['created_at'], categories)
 
 if __name__ == '__main__':
-    print_rss_channel_start()
     parser = argparse.ArgumentParser()
     parser.add_argument('-k')
     parser.add_argument('-r')
+    print_rss_channel_start()
     args = parser.parse_args()
     key = args.k
     route = args.r
