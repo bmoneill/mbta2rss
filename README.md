@@ -11,10 +11,11 @@ email or via SMS.
 - [X] Generate an RSS feed containing alerts, neatly formatted.
 - [X] Filters for certain routes in RSS feed using command-line options.
 - [X] Allow the user to use an API key.
+- [X] Export to Markdown instead of RSS.
 
 ## Usage
 
-### Unix-like Systems (macOS, GNU/Linux, \*BSD, WSL...)
+### Basics
 
 Run `python mbta2rss.py >out.xml`. Then you can open the XML file in your
 favorite RSS feed reader. It is also possible to set up a cron job to update it
@@ -22,6 +23,14 @@ every few hours on a server by adding the command to your crontab (with proper
 paths of course). For a specific route, run `python mbta2rss.py -r Red >out.xml`
 for the Red Line, as an example. To use an API key, run `python mbta2rss.py -k
 KEY`. These options can be combined.
+
+### Emailing Digests
+
+An example of emailing a digest using the md2mail filter script and msmtp (a
+sendmail-like program):
+
+	mbta2rss -o md -k "$MYAPIKEY" | md2mail "$FROM" "$TO" | msmtp -a \
+	"$MSMTPACCOUNT" -t "$MAILRECIPIENT"
 
 ## Important Notes
 
