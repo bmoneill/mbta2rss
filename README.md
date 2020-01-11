@@ -32,6 +32,8 @@ favorite RSS feed reader.
 * Set up a cron job to update alerts feed every hour or so.
 * Email alerts to you (for the route(s) you take or all routes).
 * Post alerts on a webpage.
+* View alerts in a RSS feed reader.
+* Send alerts via text (not described here).
 
 ### Cron-based Alert Updater
 
