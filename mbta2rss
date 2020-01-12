@@ -96,11 +96,11 @@ def get_alerts(key, outfmt, route, time):
             print_md_item(title, header + '\n\n' + description, date)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-k')
-    parser.add_argument('-o')
-    parser.add_argument('-r')
-    parser.add_argument('-t')
+    parser = argparse.ArgumentParser(description='Pull down MBTA alerts and print them out')
+    parser.add_argument('-k', help='set API key')
+    parser.add_argument('-o', help='set output format')
+    parser.add_argument('-r', help='set route list')
+    parser.add_argument('-t', help='set time to check alerts for')
     args = parser.parse_args()
     key = args.k
     outfmt = args.o
