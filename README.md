@@ -52,13 +52,13 @@ Add the following to your crontab:
 An example of emailing a Markdown-formatted digest using the `headmail` filter
 script and `msmtp` (a `sendmail`-like program):
 
-	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" | headmail "$FROM" "$TO" | msmtp -a \
+	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" -t "NOW" | headmail "$FROM" "$TO" | msmtp -a \
 	"$MSMTPACCOUNT" -t "$TO"
 
 If you wanted to convert it to HTML first, a Markdown to HTML filter must be
 used (like [smu](https://github.com/Gottox/smu):
 
-	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" | smu | headmail "$FROM" "$TO" \
+	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" -t "NOW" | smu | headmail "$FROM" "$TO" \
 	| msmtp -a "$MSMTPACCOUNT" -t "$TO"
 
 ### Publishing Alerts
