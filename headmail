@@ -7,6 +7,10 @@
 
 from="$1"
 to="$2"
+
+[ -z "$from" ] && echo "A sender must be provided" 1>&2 && exit 1
+[ -z "$to" ] && echo "A recipient must be provided" 1>&2 && exit 1
+
 [ -z "$3" ] && subject="Unofficial MBTA Alert Digest" || subject="$3"
 
 printf "From: $from\nTo: $to\nSubject: $subject\n\n\n"
