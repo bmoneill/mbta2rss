@@ -81,6 +81,8 @@ def get_alerts(key, outfmt, route):
         title=attributes['header']
         if len(title) > 100:
             title = title[:100]
+            if title[99] == ' ':
+                title = title[:98]
             title += "..."
 
         if outfmt == None or outfmt == 'rss':
