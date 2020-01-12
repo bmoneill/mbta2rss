@@ -7,10 +7,10 @@ is very helpful if you want to send notifications to your phone as an
 email or via SMS, or check them on a desktop or laptop via a feed
 reader or web page.
 
-## Features
+## Features (check means implemented)
 
 - [X] Generate an RSS feed containing alerts, neatly formatted.
-- [X] Filters for certain routes in RSS feed using command-line options.
+- [X] Only include certain routes.
 - [X] Allow the user to use an API key.
 - [X] Export to Markdown instead of RSS.
 - [X] Only include alerts active at a certain time.
