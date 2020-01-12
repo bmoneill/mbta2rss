@@ -47,9 +47,13 @@ def print_md_item(title='Title Placeholder', desc='Description Placeholder',
 def retrieve_from_api(req):
     return requests.get('https://api-v3.mbta.com/' + req).json()
 
-def get_alerts(key, outfmt, route):
-    character = '?'
+def get_alerts(key, outfmt, route, time):
     req_str = 'alerts'
+    character = '?'
+
+    if time != None:
+        req_str += character + 'filter[datetime]=' + time
+        character = '&'
     if key != None:
         req_str += character + 'api_key=' + key
         character = '&'
@@ -96,10 +100,12 @@ if __name__ == '__main__':
     parser.add_argument('-k')
     parser.add_argument('-o')
     parser.add_argument('-r')
+    parser.add_argument('-t')
     args = parser.parse_args()
     key = args.k
     outfmt = args.o
     route = args.r
+    time = args.t
 
     if outfmt == None:
         outfmt = 'rss'
@@ -109,7 +115,7 @@ if __name__ == '__main__':
     elif outfmt == 'md':
         print_md_start()
 
-    get_alerts(key, outfmt, route)
+    get_alerts(key, outfmt, route, time)
 
     if outfmt == None or outfmt == 'rss':
         print_rss_channel_end()

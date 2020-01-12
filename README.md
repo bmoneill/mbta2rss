@@ -25,9 +25,13 @@ favorite RSS feed reader.
 
 ### Options
 
-* `-k key`: Use an API key
-* `-o fmt`: Set output format (rss or md, default set to rss)
-* `-r route`: Set route to look for
+* `-k key`: Use an API key.
+* `-o fmt`: Set output format (rss or md, default set to rss).
+* `-r route`: Set route to look for (or comma separated list of
+  routes).
+* `-t time`: Set time filter to show alerts active at that time
+  (default shows all times, "NOW" for effective now, ISO 8601 time
+  format).
 
 ### Use Cases
 
@@ -48,13 +52,13 @@ Add the following to your crontab:
 An example of emailing a Markdown-formatted digest using the `headmail` filter
 script and `msmtp` (a `sendmail`-like program):
 
-	mbta2rss -o md -k "$MYAPIKEY" | md2mail "$FROM" "$TO" | msmtp -a \
+	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" | md2mail "$FROM" "$TO" | msmtp -a \
 	"$MSMTPACCOUNT" -t "$TO"
 
 If you wanted to convert it to HTML first, a Markdown to HTML filter must be
 used:
 
-	mbta2rss -o md -k "$MYAPIKEY" | smu | md2mail "$FROM" "$TO" \
+	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" | smu | md2mail "$FROM" "$TO" \
 	| msmtp -a "$MSMTPACCOUNT" -t "$TO"
 
 ### Publishing Alerts
