@@ -9,7 +9,7 @@ import argparse
 import requests
 
 def print_rss_channel_start(title='MBTA Unofficial Alert Feed',
-        desc='An unofficial, gratis RSS alert feed for MBTA riders.',
+        desc='An unofficial, gratis alert feed for MBTA riders.',
         lang='en-us', link='https://gitlab.com/swegbun/mbta-rss'):
     print('<?xml version="1.0" encoding="utf-8"?>')
     print('<?xml-stylesheet type="text/css" href="rss.css" ?>')
