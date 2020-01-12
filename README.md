@@ -52,20 +52,19 @@ Add the following to your crontab:
 An example of emailing a Markdown-formatted digest using the `headmail` filter
 script and `msmtp` (a `sendmail`-like program):
 
-	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" | md2mail "$FROM" "$TO" | msmtp -a \
+	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" | headmail "$FROM" "$TO" | msmtp -a \
 	"$MSMTPACCOUNT" -t "$TO"
 
 If you wanted to convert it to HTML first, a Markdown to HTML filter must be
-used:
+used (like [smu](https://github.com/Gottox/smu):
 
-	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" | smu | md2mail "$FROM" "$TO" \
+	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" | smu | headmail "$FROM" "$TO" \
 	| msmtp -a "$MSMTPACCOUNT" -t "$TO"
 
 ### Publishing Alerts
 	
 It is possible to make a HTML webpage (no CSS included by default) for the web
-using the Markdown output format and piping it into a Markdown to HTML filter
-like `smu`.
+using the Markdown output format and piping it into a Markdown to HTML filter.
 
 	mbta2rss -o md -k "$MYAPIKEY" | smu >out.html
 
