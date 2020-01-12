@@ -1,6 +1,6 @@
 #!/bin/sh
-# File: md2mail
-# Description: This converts Markdown input into a plain Markdown digest to be sent by email.
+# File: headmail
+# Description: This adds a mail header to input.
 # Author: Ben O'Neill <ben@benoneill.xyz>
 # Copyright: Copyright (C) 2019-2020 Ben O'Neill <benoneill.xyz>. Licensed under
 # GNU GPL v3.

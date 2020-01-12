@@ -44,11 +44,17 @@ Add the following to your crontab:
 
 ### Emailing Digests
 
-An example of emailing a digest using the `md2mail` filter script and `msmtp` (a
-`sendmail`-like program):
+An example of emailing a Markdown-formatted digest using the `headmail` filter
+script and `msmtp` (a `sendmail`-like program):
 
 	mbta2rss -o md -k "$MYAPIKEY" | md2mail "$FROM" "$TO" | msmtp -a \
 	"$MSMTPACCOUNT" -t "$TO"
+
+If you wanted to convert it to HTML first, a Markdown to HTML filter must be
+used:
+
+	mbta2rss -o md -k "$MYAPIKEY" | smu | md2mail "$FROM" "$TO" \
+	| msmtp -a "$MSMTPACCOUNT" -t "$TO"
 
 ### Publishing Alerts
 	
