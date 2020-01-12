@@ -35,7 +35,7 @@ def print_rss_item(title='Title Placeholder', desc='Description Placeholder',
     print('</item>')
 
 def print_md_start(title='MBTA Unofficial Alert Feed',
-        desc='An unofficial, gratis RSS alert feed for MBTA riders.'):
+        desc='An unofficial, gratis alert feed for MBTA riders.'):
     print('# ' + title)
     print(desc)
 
