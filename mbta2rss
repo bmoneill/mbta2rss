@@ -42,7 +42,7 @@ def print_md_start(title='MBTA Unofficial Alert Feed',
 
 def print_md_item(title='Title Placeholder', desc='Description Placeholder',
         date='', categories=''):
-    print('## ' + title + '(' + date + ')' + '\n')
+    print('## ' + title + ' (' + date + ')' + '\n')
     print(desc + '\n\n')
 
 def retrieve_from_api(req):
@@ -80,7 +80,8 @@ def get_alerts(key, outfmt, route):
 
         title=attributes['header']
         if len(title) > 100:
-            title = title[:100] # prevent really long titles, kind of sloppy but it works I guess
+            title = title[:100]
+            title += "..."
 
         if outfmt == None or outfmt == 'rss':
             print_rss_item(title, '<h2>' +  header + '</h2>' + '<h3>' + description + '</h3>' + '<p>' + effect + '</p>', attributes['created_at'], categories)
