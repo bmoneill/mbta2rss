@@ -70,8 +70,7 @@ using the Markdown output format and piping it into a Markdown to HTML filter.
 
 ## Important Notes
 
-1. Don't run too frequently without an API key. There are heavy rate limits. If
-   you run this too many times, your IP could be banned from the service.
+1. Without an API key, you are limited to 20 calls per minute.
 2. If you publish anything containing content related to this, make sure it is
    clear this is unofficial and not officially affiliated with the MBTA. They
    have a [license agreement](https://www.mass.gov/files/documents/2017/10/27/develop_license_agree_0.pdf).
