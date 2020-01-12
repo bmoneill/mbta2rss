@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # File: md2mail
 # Description: This converts Markdown input into a plain Markdown digest to be sent by email.
 # Author: Ben O'Neill <ben@benoneill.xyz>

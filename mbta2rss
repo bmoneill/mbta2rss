@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 # File: mbta2rss
 # Description: This pulls down all the MBTA alerts and prints them out.
 # Author: Ben O'Neill <ben@benoneill.xyz>
@@ -63,6 +62,7 @@ def get_alerts(key, outfmt, route):
         attributes = alert['attributes']
         title = ''
         description = ''
+        date = attributes['created_at']
         effect = ''
         categories = []
         affected_ledger = []
@@ -85,12 +85,11 @@ def get_alerts(key, outfmt, route):
                 title = title[:98]
             title += "..."
 
-        if outfmt == None or outfmt == 'rss':
-            print_rss_item(title, '<h2>' +  header + '</h2>' + '<h3>' + description + '</h3>' + '<p>' + effect + '</p>', attributes['created_at'], categories)
-            return
-        
-        if outfmt == 'md':
-            print_md_item(title, header + '\n\n' + description, attributes['created_at'])
+        if outfmt == 'rss':
+            print_rss_item(title, '<h2>' +  header + '</h2>' + '<h3>'
+                    + description + '</h3>' + '<p>' + effect + '</p>', date, categories)
+        elif outfmt == 'md':
+            print_md_item(title, header + '\n\n' + description, date)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -102,9 +101,12 @@ if __name__ == '__main__':
     outfmt = args.o
     route = args.r
 
-    if outfmt == None or outfmt == 'rss':
+    if outfmt == None:
+        outfmt = 'rss'
+
+    if outfmt == 'rss':
         print_rss_channel_start()
-    if outfmt == 'md':
+    elif outfmt == 'md':
         print_md_start()
 
     get_alerts(key, outfmt, route)
