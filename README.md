@@ -4,7 +4,8 @@ This software will generate an RSS feed using the [MBTA
 API](https://www.mbta.com/developers/v3-api) and Python 3. The
 feed will show current schedule and alerts for different routes. This
 is very helpful if you want to send notifications to your phone as an
-email or via SMS.
+email or via SMS, or check them on a desktop or laptop via a feed
+reader or web page.
 
 ## Features
 
