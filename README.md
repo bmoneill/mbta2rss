@@ -13,6 +13,7 @@ email or via SMS.
 - [X] Allow the user to use an API key.
 - [X] Export to Markdown instead of RSS.
 - [ ] Only include alerts published after a certain time.
+- [ ] Convert route schedules to Markdown format.
 
 ## Usage
 
