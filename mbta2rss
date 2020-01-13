@@ -69,8 +69,6 @@ def get_alerts(key, outfmt, route, time):
         date = attributes['created_at']
         effect = ''
         categories = []
-        affected_ledger = []
-        route_affected = False # The route we want if route != '*'
 
         header = attributes['header']
 
