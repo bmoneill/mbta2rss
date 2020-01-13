@@ -97,15 +97,15 @@ def get_alerts(key, outfmt, route, time):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Pull down MBTA alerts and print them out')
-    parser.add_argument('-k', help='set API key')
-    parser.add_argument('-o', help='set output format')
-    parser.add_argument('-r', help='set route list')
-    parser.add_argument('-t', help='set time to check alerts for')
+    parser.add_argument('-k', '--key', help='set API key', metavar='APIKEY')
+    parser.add_argument('-o', '--output', help='set output format', metavar='OUTFMT')
+    parser.add_argument('-r', '--routes', help='set route list', metavar='ROUTELIST')
+    parser.add_argument('-t', '--time', help='set time to check alerts for', metavar='TIME')
     args = parser.parse_args()
-    key = args.k
-    outfmt = args.o
-    route = args.r
-    time = args.t
+    key = args.key
+    outfmt = args.output
+    route = args.routes
+    time = args.time
 
     if outfmt == None:
         outfmt = 'rss'
