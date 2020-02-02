@@ -42,7 +42,7 @@ def print_md_start(title='MBTA Unofficial Alert Feed',
 def print_md_item(title='Title Placeholder', desc='Description Placeholder',
         date='', categories=''):
     print('## ' + title + ' (' + date + ')' + '\n')
-    print(desc + '\n\n')
+    print(desc.replace('\n', '\n\n') + '\n\n')
 
 def retrieve_from_api(req):
     return requests.get('https://api-v3.mbta.com/' + req).json()
