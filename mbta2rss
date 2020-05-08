@@ -3,14 +3,14 @@
 # Description: This pulls down all the MBTA alerts and prints them out.
 # Author: Ben O'Neill <ben@benoneill.xyz>
 # Copyright: Copyright (C) 2019-2020 Ben O'Neill <benoneill.xyz>. Licensed under
-# GNU GPL v3.
+# the GNU GPL v3.
 
 import argparse
 import requests
 
-def print_rss_channel_start(title='MBTA Unofficial Alert Feed',
-        desc='An unofficial, gratis alert feed for MBTA riders.',
-        lang='en-us', link='https://gitlab.com/swegbun/mbta-rss'):
+def print_rss_channel_start(title='Unofficial MBTA Alert Feed',
+        desc='An unofficial alert feed for MBTA riders.',
+        lang='en-us', link='https://github.com/swegbun/mbta-rss'):
     print('<?xml version="1.0" encoding="utf-8"?>')
     print('<?xml-stylesheet type="text/css" href="rss.css" ?>')
     print('<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">')
