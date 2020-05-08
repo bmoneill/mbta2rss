@@ -8,46 +8,72 @@
 import argparse
 import requests
 
-def print_rss_channel_start(title='Unofficial MBTA Alert Feed',
-        desc='An unofficial alert feed for MBTA riders.',
-        lang='en-us', link='https://github.com/swegbun/mbta-rss'):
-    print('<?xml version="1.0" encoding="utf-8"?>')
-    print('<?xml-stylesheet type="text/css" href="rss.css" ?>')
-    print('<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">')
-    print('<channel>')
-    print('<title>' + title + '</title>')
-    print('<link>' + link + '</link>')
-    print('<description>' + desc + '</description>')
-    print('<language>' + lang + '</language>') # FIXME does the API even support any other languages?
+API_URL = 'https://api-v3.mbta.com/'
+DEFAULT_TITLE = 'Unofficial MBTA Alert Feed'
+DEFAULT_DESC = 'An unofficial feed for public transit alerts in the Boston area'
+DEFAULT_LANG = 'en_us'
+DEFAULT_URL = 'https://github.com/swegbun/mbta-rss'
 
-def print_rss_channel_end():
-    print('</channel>')
-    print('</rss>')
+class MarkdownDriver:
+    def __init__(self, title=DEFAULT_TITLE, desc=DEFAULT_DESC,
+            lang=DEFAULT_LANG, url=DEFAULT_URL):
+        self.title = title
+        self.desc = desc
+        self.lang = lang
+        self.url = url
+    
+    def print_start(self):
+        print('# ' + title)
+        print(desc)
 
-def print_rss_item(title='Title Placeholder', desc='Description Placeholder',
-        date='', categories=''):
-    print('<item>')
-    print('<title>' + title + '</title>')
-    print('<description><![CDATA[' + desc + ']]></description>')
-    print('<pubDate>' + date + '</pubDate>')
-    for category in categories:
-        print('<category>' + category + '</category>')
-    print('</item>')
+    def print_item(self, title, header, desc='', effect='', date='', categories=[]):
+        print('## ' + title + ' (' + date + ')' + '\n*' + header + '*\n\n')
+        print(desc.replace('\n', '\n\n') + '\n\n')
 
-def print_md_start(title='MBTA Unofficial Alert Feed',
-        desc='An unofficial, gratis alert feed for MBTA riders.'):
-    print('# ' + title)
-    print(desc)
+    def print_end(self):
+        pass
 
-def print_md_item(title='Title Placeholder', desc='Description Placeholder',
-        date='', categories=''):
-    print('## ' + title + ' (' + date + ')' + '\n')
-    print(desc.replace('\n', '\n\n') + '\n\n')
+class RSSDriver:
+    def __init__(self, title=DEFAULT_TITLE, desc=DEFAULT_DESC,
+            lang=DEFAULT_LANG, url=DEFAULT_URL):
+        self.title = title
+        self.desc = desc
+        self.lang = lang
+        self.url = url
+
+    def print_start(self):
+        print('<?xml version="1.0" encoding="utf-8"?>')
+        print('<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">')
+        print('<channel>')
+        print('<title>' + self.title + '</title>')
+        print('<description>' + self.desc + '</description>')
+        print('<language>' + self.lang + '</language>')
+        print('<link>' + self.url + '</link>')
+
+    def print_item(self, title, header, desc='', effect='', date='',
+            categories=[]):
+        cdata = '<h2>' + header + '</h2>' + '<h3>' + desc + '</h3>' + '<p>' + effect + '</p>'
+
+        print('<item>')
+        print('<title>' + title + '</title>')
+        print('<description><![CDATA[' + cdata + ']]></description>')
+        print('<pubDate>' + date + '</pubDate>')
+        for category in categories:
+            print('<category>' + category + '</category>')
+        print('</item>')
+
+
+    def print_end(self):
+        print('</channel>')
+        print('</rss>')
+
 
 def retrieve_from_api(req):
     return requests.get('https://api-v3.mbta.com/' + req).json()
 
-def get_alerts(key, outfmt, route, time):
+def get_alerts(key, driver, route, time):
+    driver.print_start()
+
     req_str = 'alerts'
     character = '?'
 
@@ -73,9 +99,9 @@ def get_alerts(key, outfmt, route, time):
         header = attributes['header']
 
         if attributes['description'] != None:
-            description = attributes['description']
+            desc = attributes['description']
         else:
-            description = ''
+            desc = ''
 
         if attributes['effect'] != None:
             effect = 'Effect: ' + attributes['effect']
@@ -85,13 +111,11 @@ def get_alerts(key, outfmt, route, time):
             title = title[:100]
             if title[99] == ' ':
                 title = title[:98]
-            title += "..."
+            title += '...'
 
-        if outfmt == 'rss':
-            print_rss_item(title, '<h2>' +  header + '</h2>' + '<h3>'
-                    + description + '</h3>' + '<p>' + effect + '</p>', date, categories)
-        elif outfmt == 'md':
-            print_md_item(title, header + '\n\n' + description, date)
+        driver.print_item(title, header, desc, effect, date, categories)
+
+    driver.print_end()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Pull down MBTA alerts and print them out')
@@ -99,21 +123,32 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--output', help='set output format', metavar='OUTFMT')
     parser.add_argument('-r', '--routes', help='set route list', metavar='ROUTELIST')
     parser.add_argument('-t', '--time', help='set time to check alerts for', metavar='TIME')
+    parser.add_argument('-T', '--title', help='set output title', metavar='TITLE')
+    parser.add_argument('-D', '--description', help='set output description', metavar='DESC')
+    parser.add_argument('-U', '--url', help='set upstream URL', metavar='URL')
     args = parser.parse_args()
     key = args.key
     outfmt = args.output
     route = args.routes
     time = args.time
+    title = DEFAULT_TITLE
+    desc = DEFAULT_DESC
+    url = DEFAULT_URL
+    driver = None
 
-    if outfmt == None:
-        outfmt = 'rss'
-
-    if outfmt == 'rss':
-        print_rss_channel_start()
-    elif outfmt == 'md':
-        print_md_start()
-
-    get_alerts(key, outfmt, route, time)
+    if args.title != None:
+        title = args.title
+    if args.description != None:
+        desc = args.description
+    if args.url != None:
+        url = args.url
 
     if outfmt == None or outfmt == 'rss':
-        print_rss_channel_end()
+        driver = RSSDriver(title, desc, DEFAULT_LANG, url)
+    elif outfmt == 'md':
+        driver = MarkdownDriver(title, desc, DEFAULT_LANG, url)
+    else:
+        print("No such output driver.")
+        exit(0)
+
+    get_alerts(key, driver, route, time)
