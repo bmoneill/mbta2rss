@@ -15,6 +15,10 @@ or check them on a desktop or laptop via a feed reader or web page.
 - [X] Only include alerts active at a certain time.
 - [ ] Convert route schedules to Markdown format.
 
+## Dependencies
+
+* requests (`pip install requests`)
+
 ## Installation
 
 Run the following as root:
