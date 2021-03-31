@@ -1,7 +1,7 @@
 # mbta2rss
 
 This software utilizes the [MBTA API](https://www.mbta.com/developers/v3-api)
-to grab alerts, stop lists, and schedules for MBTA routes.
+to grab alerts and stop lists for public transit routes in Greater Boston.
 
 ## Features (check means implemented)
 
