@@ -154,7 +154,7 @@ if __name__ == '__main__':
     driver = None
 
     if args.title != None:
-        title = args.TITLE
+        title = args.title
     if args.description != None:
         desc = args.description
     if args.url != None:
