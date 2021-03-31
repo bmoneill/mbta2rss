@@ -1,10 +1,7 @@
-# MBTA Alerts RSS Feed
+# mbta2rss
 
-This software will generate an RSS feed using the [MBTA
-API](https://www.mbta.com/developers/v3-api) and Python 3. The
-feed will show alerts for different routes. This is very helpful if
-you want to send notifications to your phone as an email or via SMS,
-or check them on a desktop or laptop via a feed reader or web page.
+This software utilizes the [MBTA API](https://www.mbta.com/developers/v3-api)
+to grab alerts, stop lists, and schedules for MBTA routes.
 
 ## Features (check means implemented)
 
@@ -13,6 +10,7 @@ or check them on a desktop or laptop via a feed reader or web page.
 - [X] Allow the user to use an API key.
 - [X] Export to Markdown instead of RSS.
 - [X] Only include alerts active at a certain time.
+- [X] Convert stop lists to Markdown format.
 - [ ] Convert route schedules to Markdown format.
 
 ## Dependencies
@@ -34,13 +32,16 @@ favorite RSS feed reader.
 
 ### Options
 
+* `-d datatype`: choose type of data to grab (alerts or stops, default is alerts)
 * `-k key`: Use an API key.
-* `-o fmt`: Set output format (rss or md, default set to rss).
-* `-r route`: Set route to look for (or comma separated list of
-  routes).
+* `-o fmt`: Set output format (rss or md, default is rss).
+* `-r routes`: Set route(s) to look for (comma separated)
 * `-t time`: Set time filter to show alerts active at that time
-  (default shows all times, "NOW" for effective now, ISO 8601 time
-  format).
+  (default shows all times, "NOW" for alerts in effect now, must be in
+  ISO 8601 time format).
+* `-T title`: document/feed title
+* `-D description`: document/feed description
+* `-U url`: upstream URL for RSS feed
 
 ### Use Cases
 
@@ -58,10 +59,10 @@ Add the following to your crontab:
 ### Emailing Digests
 
 An example of emailing a Markdown-formatted digest using the `headmail` filter
-script and `msmtp` (a `sendmail`-like program):
+script and `sendmail`:
 
-	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" -t "NOW" | headmail "$FROM" "$TO" | msmtp -a \
-	"$MSMTPACCOUNT" -t "$TO"
+	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" -t "NOW" | headmail "$FROM" "$TO" | sendmail -a \
+	"$ACCOUNT" -t "$TO"
 
 If you wanted to convert it to HTML first, a Markdown to HTML filter must be
 used (like [smu](https://github.com/Gottox/smu):
@@ -82,6 +83,7 @@ using the Markdown output format and piping it into a Markdown to HTML filter.
 2. If you publish anything containing content related to this, make sure it is
    clear this is unofficial and not officially affiliated with the MBTA. They
    have a [license agreement](https://www.mass.gov/files/documents/2017/10/27/develop_license_agree_0.pdf).
+3. Green Line routes are differenciated like so: "Green-B", "Green-C", "Green-D", "Green-E"
 
 ## Bugs
 
@@ -90,5 +92,4 @@ issue or email me.
 
 ## Contributing
 
-Please feel free to contribute. Email me patch files or submit a pull request.
-Also, the license is GNU GPL v3 so you can fork this and use it for any purpose.
+Please feel free to contribute. Email me patches or submit a pull request.

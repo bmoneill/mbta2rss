@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # File: mbta2rss
-# Description: This pulls down all the MBTA alerts and prints them out.
+# Description: This pulls down all queried MBTA alerts and prints them out.
 # Author: Ben O'Neill <ben@benoneill.xyz>
 # Copyright: Copyright (C) 2019-2020 Ben O'Neill <benoneill.xyz>. Licensed under
 # the GNU GPL v3.
@@ -13,6 +13,7 @@ DEFAULT_TITLE = 'Unofficial MBTA Alert Feed'
 DEFAULT_DESC = 'An unofficial feed for public transit alerts in the Boston area'
 DEFAULT_LANG = 'en_us'
 DEFAULT_URL = 'https://github.com/swegbun/mbta-rss'
+DEFAULT_DATATYPE = 'alerts'
 
 class MarkdownDriver:
     def __init__(self, title=DEFAULT_TITLE, desc=DEFAULT_DESC,
@@ -117,8 +118,23 @@ def get_alerts(key, driver, route, time):
 
     driver.print_end()
 
+def get_stoplist(key, routes):
+
+    if routes == None:
+        print("route list must be provided when listing stops")
+        exit(1)
+
+    driver.print_start()
+    for route in routes.split(','):
+        stoplist = retrieve_from_api('stops?filter[route]=' + route)
+        print("## Route: " + route)
+        for stop in stoplist['data']:
+            print("* " + stop['attributes']['name'])
+    driver.print_end()
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Pull down MBTA alerts and print them out')
+    parser.add_argument('-d', '--datatype', help="data to grab", metavar='DATATYPE')
     parser.add_argument('-k', '--key', help='set API key', metavar='APIKEY')
     parser.add_argument('-o', '--output', help='set output format', metavar='OUTFMT')
     parser.add_argument('-r', '--routes', help='set route list', metavar='ROUTELIST')
@@ -129,19 +145,22 @@ if __name__ == '__main__':
     args = parser.parse_args()
     key = args.key
     outfmt = args.output
-    route = args.routes
+    routes = args.routes
     time = args.time
     title = DEFAULT_TITLE
     desc = DEFAULT_DESC
     url = DEFAULT_URL
+    datatype = DEFAULT_DATATYPE
     driver = None
 
     if args.title != None:
-        title = args.title
+        title = args.TITLE
     if args.description != None:
         desc = args.description
     if args.url != None:
         url = args.url
+    if args.datatype != None:
+        datatype = args.datatype
 
     if outfmt == None or outfmt == 'rss':
         driver = RSSDriver(title, desc, DEFAULT_LANG, url)
@@ -151,4 +170,7 @@ if __name__ == '__main__':
         print("No such output driver.")
         exit(0)
 
-    get_alerts(key, driver, route, time)
+    if datatype == 'alerts':
+        get_alerts(key, driver, routes, time)
+    elif datatype == 'stops':
+        get_stoplist(key, routes)
