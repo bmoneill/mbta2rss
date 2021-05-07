@@ -11,7 +11,7 @@ to grab alerts and stop lists for public transit routes in Greater Boston.
 - [X] Export to Markdown instead of RSS.
 - [X] Only include alerts active at a certain time.
 - [X] Convert stop lists to Markdown format.
-- [ ] Convert route schedules to Markdown format.
+- [ ] Convert route schedules to CSV and Markdown format.
 
 ## Dependencies
 
@@ -87,9 +87,9 @@ using the Markdown output format and piping it into a Markdown to HTML filter.
 
 ## Bugs
 
-I don't know of any bugs but I know there are bound to be some so submit an
-issue or email me.
+No known bugs. If one is found, submit an issue, PR, or email me with
+a description and/or patch.
 
 ## Contributing
 
-Please feel free to contribute. Email me patches or submit a pull request.
+Please feel free to contribute. Send patches via email or submit a pull request.
