@@ -1,0 +1,52 @@
+.TH "MBTA2RSS" "1" "May 2021" "mbta2rss" "User Commands"
+.SH NAME
+mbta2rss \- query MBTA API for public transit alerts in Greater Boston
+.SH SYNOPSIS
+.B mbta2rss
+.RB [d|D|k|o|r|t|T|U]
+.SH DESCRIPTION
+.I mbta2rss
+is a program that utilizes the MBTA Developer API to grab alerts and
+stop lists for public transit routes in Greater Boston. 
+.SH OPTIONS
+.TP
+.B d [type]
+Choose the type of data to grab (alerts or stops) (alerts is the
+default)
+.TP
+.B k [key]
+Specify API key
+.TP
+.B o [format]
+Specify the format of the data output. (rss or md) By default, RSS
+(rss) is used, but Markdown (md) formatting may be used as well.
+.TP
+.B r [routes]
+Filter routes. Routes are listed in a comma-separated list, like so:
+"86,34E,Green-E,Orange"... Green Line routes are formatted as such:
+Green-B, Green-C, Green-D, Green-E.
+.TP
+.B t [time]
+Set the time to check alerts for (ISO 8601 time format). "NOW" means
+alerts that are currently in effect.
+.TP
+.B T [title]
+Set the title of the outputted document or feed.
+.TP
+.B D [desc]
+Set the description of the outputted feed (RSS only).
+.TP
+.B U [url]
+Set the upstream URL of the outputted feed (RSS only).
+.SH COPYRIGHT
+Copyright \(co 2021 Ben O'Neill <ben@benoneill.xyz>. License: GNU GPL v3: GNU
+GPL Version 3 or later. <https://gnu.org/licenses/gpl.html>. This is free
+software: you are free to change and redistribute it. There is NO WARRANTY, to
+the extent permitted by law.
+.SH BUGS
+Probably.
+.SH FUTURE DIRECTIONS
+In the future, timetables may be added.
+.SH SEE ALSO
+.BR cron (8),
+.BR sendmail (1)
