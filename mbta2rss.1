@@ -1,21 +1,21 @@
 .TH "MBTA2RSS" "1" "May 2021" "mbta2rss" "User Commands"
 .SH NAME
-mbta2rss \- query MBTA API for public transit alerts in Greater Boston
+mbta2rss \- query the MBTA API for public transit alerts in Greater Boston
 .SH SYNOPSIS
 .B mbta2rss
 .RB [d|D|k|o|r|t|T|U]
 .SH DESCRIPTION
 .I mbta2rss
-is a program that utilizes the MBTA Developer API to grab alerts and
-stop lists for public transit routes in Greater Boston. 
+is a program that utilizes the MBTA (Massachusetts Bay Transportation
+Authority) Developer API to grab alerts and stop lists for public
+transit routes in Greater Boston. 60 API calls per minute are provided
+free of charge without a key. To use an API key, put it in an
+environment variable named API_KEY when running mbta2rss.
 .SH OPTIONS
 .TP
 .B d [type]
 Choose the type of data to grab (alerts or stops) (alerts is the
 default)
-.TP
-.B k [key]
-Specify API key
 .TP
 .B o [format]
 Specify the format of the data output. (rss or md) By default, RSS

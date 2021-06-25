@@ -6,9 +6,11 @@
 # the GNU GPL v3.
 
 import argparse
+import os
 import requests
 
 API_URL = 'https://api-v3.mbta.com/'
+API_KEY = ''
 DEFAULT_TITLE = 'Unofficial MBTA Alert Feed'
 DEFAULT_DESC = 'An unofficial feed for public transit alerts in the Boston area'
 DEFAULT_LANG = 'en_us'
@@ -72,7 +74,7 @@ class RSSDriver:
 def retrieve_from_api(req):
     return requests.get('https://api-v3.mbta.com/' + req).json()
 
-def get_alerts(key, driver, route, time):
+def get_alerts(driver, route, time):
     driver.print_start()
 
     req_str = 'alerts'
@@ -81,8 +83,8 @@ def get_alerts(key, driver, route, time):
     if time != None:
         req_str += character + 'filter[datetime]=' + time
         character = '&'
-    if key != None:
-        req_str += character + 'api_key=' + key
+    if API_KEY != None:
+        req_str += character + 'api_key=' + API_KEY
         character = '&'
     if route != None:
         req_str += character + 'filter[route]=' + route
@@ -118,7 +120,7 @@ def get_alerts(key, driver, route, time):
 
     driver.print_end()
 
-def get_stoplist(key, routes):
+def get_stoplist(routes):
 
     if routes == None:
         print("route list must be provided when listing stops")
@@ -135,7 +137,6 @@ def get_stoplist(key, routes):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Pull down MBTA alerts and print them out')
     parser.add_argument('-d', '--datatype', help="data to grab", metavar='DATATYPE')
-    parser.add_argument('-k', '--key', help='set API key', metavar='APIKEY')
     parser.add_argument('-o', '--output', help='set output format', metavar='OUTFMT')
     parser.add_argument('-r', '--routes', help='set route list', metavar='ROUTELIST')
     parser.add_argument('-t', '--time', help='set time to check alerts for', metavar='TIME')
@@ -143,7 +144,6 @@ if __name__ == '__main__':
     parser.add_argument('-D', '--description', help='set output description', metavar='DESC')
     parser.add_argument('-U', '--url', help='set upstream URL', metavar='URL')
     args = parser.parse_args()
-    key = args.key
     outfmt = args.output
     routes = args.routes
     time = args.time
@@ -153,14 +153,15 @@ if __name__ == '__main__':
     datatype = DEFAULT_DATATYPE
     driver = None
 
+    API_KEY = os.getenv("API_KEY")
+
     if args.title != None:
         title = args.title
     if args.description != None:
         desc = args.description
     if args.url != None:
         url = args.url
-    if args.datatype != None:
-        datatype = args.datatype
+    if args.datatype != None: datatype = args.datatype
 
     if outfmt == None or outfmt == 'rss':
         driver = RSSDriver(title, desc, DEFAULT_LANG, url)
@@ -171,6 +172,6 @@ if __name__ == '__main__':
         exit(0)
 
     if datatype == 'alerts':
-        get_alerts(key, driver, routes, time)
+        get_alerts(driver, routes, time)
     elif datatype == 'stops':
-        get_stoplist(key, routes)
+        get_stoplist(routes)
