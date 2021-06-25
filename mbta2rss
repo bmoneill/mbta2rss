@@ -128,7 +128,10 @@ def get_stoplist(routes):
 
     driver.print_start()
     for route in routes.split(','):
-        stoplist = retrieve_from_api('stops?filter[route]=' + route)
+        reqstr = 'stops?filter[route]=' + route
+        if API_KEY != None:
+            reqstr += '&api_key=' + API_KEY
+        stoplist = retrieve_from_api(reqstr)
         print("## Route: " + route)
         for stop in stoplist['data']:
             print("* " + stop['attributes']['name'])
