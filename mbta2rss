@@ -2,7 +2,7 @@
 # File: mbta2rss
 # Description: This pulls down all queried MBTA alerts and prints them out.
 # Author: Ben O'Neill <ben@benoneill.xyz>
-# Copyright: Copyright (C) 2019-2020 Ben O'Neill <benoneill.xyz>. Licensed under
+# Copyright: Copyright (C) 2019-2021 Ben O'Neill <benoneill.xyz>. Licensed under
 # the GNU GPL v3.
 
 import argparse
