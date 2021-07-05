@@ -28,12 +28,13 @@ Run the following as root:
 ### Basics
 
 Run `mbta2rss >out.xml`. Then you can open the XML file in your
-favorite RSS feed reader.
+favorite RSS feed reader. An API key can be placed in the
+environment variable `$APIKEY`. You can request one
+[here](https://api-v3.mbta.com/).
 
 ### Options
 
 * `-d datatype`: choose type of data to grab (alerts or stops, default is alerts)
-* `-k key`: Use an API key.
 * `-o fmt`: Set output format (rss or md, default is rss).
 * `-r routes`: Set route(s) to look for (comma separated)
 * `-t time`: Set time filter to show alerts active at that time
@@ -54,28 +55,29 @@ favorite RSS feed reader.
 
 Add the following to your crontab:
 
-	0 * * * * /usr/bin/mbta2rss -k "$MYAPIKEY" >$HOSTDIR/rss.xml
+	0 * * * * APIKEY="$MYAPIKEY" /usr/bin/mbta2rss >$HOSTDIR/rss.xml
 
 ### Emailing Digests
 
 An example of emailing a Markdown-formatted digest using the `headmail` filter
 script and `sendmail`:
 
-	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" -t "NOW" | headmail "$FROM" "$TO" | sendmail -a \
-	"$ACCOUNT" -t "$TO"
+	APIKEY="$MYAPIKEY" mbta2rss -o md -r "Red,Green-E,66" -t "NOW" | headmail "$FROM" "$TO" | \
+		sendmail -a "$ACCOUNT" -t "$TO"
 
 If you wanted to convert it to HTML first, a Markdown to HTML filter must be
 used (like [smu](https://github.com/Gottox/smu):
 
-	mbta2rss -o md -k "$MYAPIKEY" -r "Orange,36" -t "NOW" | smu | headmail "$FROM" "$TO" \
-	| msmtp -a "$MSMTPACCOUNT" -t "$TO"
+	APIKEY="$MYAPIKEY" mbta2rss -o md -r "Red,Green-E,66" -t "NOW" | smu | headmail "$FROM" "$TO" | \
+		sendmail -a "$MSMTPACCOUNT" -t "$TO"
 
 ### Publishing Alerts
 	
 It is possible to make a HTML webpage (no CSS included by default) for the web
 using the Markdown output format and piping it into a Markdown to HTML filter.
+A live demo of this is available [here](https://benoneill.xyz/demos/mbta-rss/).
 
-	mbta2rss -o md -k "$MYAPIKEY" | smu >out.html
+	APIKEY="$MYAPIKEY" mbta2rss -o md | smu >out.html
 
 ## Important Notes
 
