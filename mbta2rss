@@ -8,6 +8,7 @@
 import argparse
 import os
 import requests
+from datetime import datetime
 
 API_URL = 'https://api-v3.mbta.com/'
 API_KEY = ''
@@ -29,8 +30,8 @@ class MarkdownDriver:
         print('# ' + title)
         print(desc)
 
-    def print_item(self, title, header, desc='', effect='', date='', categories=[]):
-        print('## ' + title + ' (' + date + ')' + '\n*' + header + '*\n\n')
+    def print_item(self, header, desc='', effect='', date='', categories=[]):
+        print('## ' + header + ' (added ' + date + ')' + '\n*' + header + '*\n\n')
         print(desc.replace('\n', '\n\n') + '\n\n')
 
     def print_end(self):
@@ -53,12 +54,12 @@ class RSSDriver:
         print('<language>' + self.lang + '</language>')
         print('<link>' + self.url + '</link>')
 
-    def print_item(self, title, header, desc='', effect='', date='',
+    def print_item(self, header, desc='', effect='', date='',
             categories=[]):
-        cdata = '<h2>' + header + '</h2>' + '<h3>' + desc + '</h3>' + '<p>' + effect + '</p>'
+        cdata = '<h3>' + desc + '</h3>' + '<p>' + effect + '</p>'
 
         print('<item>')
-        print('<title>' + title + '</title>')
+        print('<title>' + header + '</title>')
         print('<description><![CDATA[' + cdata + ']]></description>')
         print('<pubDate>' + date + '</pubDate>')
         for category in categories:
@@ -95,7 +96,10 @@ def get_alerts(driver, route, time):
         attributes = alert['attributes']
         title = ''
         description = ''
-        date = attributes['created_at']
+
+        dt = datetime.fromisoformat(attributes['created_at'])
+        date = dt.strftime('%m-%d-%Y %I:%M %p')
+        
         effect = ''
         categories = []
 
@@ -109,14 +113,7 @@ def get_alerts(driver, route, time):
         if attributes['effect'] != None:
             effect = 'Effect: ' + attributes['effect']
 
-        title=attributes['header']
-        if len(title) > 100:
-            title = title[:100]
-            if title[99] == ' ':
-                title = title[:98]
-            title += '...'
-
-        driver.print_item(title, header, desc, effect, date, categories)
+        driver.print_item(header, desc, effect, date, categories)
 
     driver.print_end()
 
