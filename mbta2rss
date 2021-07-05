@@ -31,7 +31,7 @@ class MarkdownDriver:
         print(desc)
 
     def print_item(self, header, desc='', effect='', date='', categories=[]):
-        print('## ' + header + ' (added ' + date + ')' + '\n*' + header + '*\n\n')
+        print('## ' + header + ' (added ' + date + ')')
         print(desc.replace('\n', '\n\n') + '\n\n')
 
     def print_end(self):
