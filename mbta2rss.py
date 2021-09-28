@@ -34,7 +34,7 @@ class MarkdownAlertDriver:
         print(desc)
 
     """ Format and print alert """
-    def print_item(self, header, desc='', effect='', date='', categories=[]):
+    def print_item(self, header, desc='', effect='', date='', categories=[], guid=''):
         print('## ' + header + ' (added ' + date + ')')
         print(desc.replace('\n', '\n\n') + '\n\n')
 
@@ -66,7 +66,7 @@ class RSSAlertDriver:
 
     """ Format and print alert """
     def print_item(self, header, desc='', effect='', date='',
-            categories=[]):
+            categories=[], guid=''):
         if len(header) > 80:
             header = header[:77] + "..."
 
@@ -76,6 +76,7 @@ class RSSAlertDriver:
         print('<title>' + html.escape(header) + '</title>')
         print('<description><![CDATA[' + html.escape(cdata) + ']]></description>')
         print('<pubDate>' + date + '</pubDate>')
+        print('<guid>' + guid + '</guid>')
         for category in categories:
             print('<category>' + category + '</category>')
         print('</item>')
@@ -117,6 +118,7 @@ def get_alerts(driver, route, time):
         desc = ''
         effect = ''
         categories = [] # TODO currently unused, how to implement?
+        guid = alert['id']
 
         header = attributes['short_header'] # this should always be non-empty
         dt = datetime.fromisoformat(attributes['created_at'])
@@ -128,8 +130,9 @@ def get_alerts(driver, route, time):
         if attributes['effect'] != None:
             effect = 'Effect: ' + attributes['effect']
 
+
         # print using given driver
-        driver.print_item(header, desc, effect, date, categories)
+        driver.print_item(header, desc, effect, date, categories, guid)
 
     driver.print_end()
 
