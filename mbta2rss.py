@@ -70,7 +70,7 @@ class RSSAlertDriver:
         if len(header) > 80:
             header = header[:77] + "..."
 
-        content = "<pre>" + html.escape(desc) + "</pre>"
+        content = "<pre>" + html.escape(header) + "\n\n" + html.escape(desc) + "</pre>"
 
         print('<item>')
         print('<title>' + html.escape(header) + '</title>')
