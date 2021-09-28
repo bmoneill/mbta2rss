@@ -8,10 +8,11 @@ to grab alerts and stop lists for public transit routes in Greater Boston.
 - [X] Generate an RSS feed containing alerts, neatly formatted.
 - [X] Only include certain routes.
 - [X] Allow the user to use an API key.
-- [X] Export to Markdown instead of RSS.
+- [X] Export alerts to Markdown.
 - [X] Only include alerts active at a certain time.
 - [X] Convert stop lists to Markdown format.
 - [ ] Convert route schedules to CSV and Markdown format.
+- [ ] Export alerts and stop lists to CSV.
 
 ## Dependencies
 
