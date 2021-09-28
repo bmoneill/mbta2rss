@@ -67,9 +67,6 @@ class RSSAlertDriver:
     """ Format and print alert """
     def print_item(self, header, desc='', effect='', date='',
             categories=[], guid=''):
-        if len(header) > 80:
-            header = header[:77] + "..."
-
         content = "<pre>" + html.escape(header) + "\n\n" + html.escape(desc) + "</pre>"
 
         print('<item>')
