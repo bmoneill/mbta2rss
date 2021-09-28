@@ -16,9 +16,11 @@ DEFAULT_LANG = 'en_us'
 DEFAULT_URL = 'https://github.com/darklands1/mbta-rss'
 DEFAULT_DATATYPE = 'alerts'
 
-# Driver for printing Markdown output. This formats the data from the API
-# to be semi-neatly displayed in basic Markdown
-class MarkdownDriver:
+"""
+Driver for printing Markdown alert output. This formats the data from the API
+to be semi-neatly displayed in basic Markdown
+"""
+class MarkdownAlertDriver:
     def __init__(self, title=DEFAULT_TITLE, desc=DEFAULT_DESC,
             lang=DEFAULT_LANG, url=DEFAULT_URL):
         self.title = title
@@ -26,20 +28,25 @@ class MarkdownDriver:
         self.lang = lang
         self.url = url
     
+    """ Stuff to print before the main content """
     def print_start(self):
         print('# ' + title)
         print(desc)
 
+    """ Format and print alert """
     def print_item(self, header, desc='', effect='', date='', categories=[]):
         print('## ' + header + ' (added ' + date + ')')
         print(desc.replace('\n', '\n\n') + '\n\n')
 
+    """ Stuff to print after the main content (empty in this case but defined for consistency) """
     def print_end(self):
         pass
 
-# Driver for printing RSS output. This formats the data from the API
-# to be semi-neatly displayed as an RSS feed.
-class RSSDriver:
+"""
+Driver for printing RSS alert output. This formats the data from the API
+to be semi-neatly displayed as an RSS feed.
+"""
+class RSSAlertDriver:
     def __init__(self, title=DEFAULT_TITLE, desc=DEFAULT_DESC,
             lang=DEFAULT_LANG, url=DEFAULT_URL):
         self.title = title
@@ -47,6 +54,7 @@ class RSSDriver:
         self.lang = lang
         self.url = url
     
+    """ Stuff to print before the main content """
     def print_start(self):
         print('<?xml version="1.0" encoding="utf-8"?>')
         print('<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">')
@@ -56,6 +64,7 @@ class RSSDriver:
         print('<language>' + self.lang + '</language>')
         print('<link>' + self.url + '</link>')
 
+    """ Format and print alert """
     def print_item(self, header, desc='', effect='', date='',
             categories=[]):
         if len(header) > 80:
@@ -71,16 +80,16 @@ class RSSDriver:
             print('<category>' + category + '</category>')
         print('</item>')
 
-
+    """ Stuff to print after the main content """
     def print_end(self):
         print('</channel>')
         print('</rss>')
 
-# Send a request to the API and return the JSON output
+""" Sends a request to the API and return the JSON output """
 def retrieve_from_api(req):
     return requests.get('https://api-v3.mbta.com/' + req).json()
 
-# Facilitates conversion of alerts from the JSON API into the desired format.
+""" Facilitates conversion of alerts from the JSON API into the desired format. """
 def get_alerts(driver, route, time):
     driver.print_start()
 
@@ -124,8 +133,10 @@ def get_alerts(driver, route, time):
 
     driver.print_end()
 
-# List stops for each route in a list (only works for Markdown, output
-# is hardcoded in that format currently).
+"""
+List stops for each route in a list (only works for Markdown, output
+is hardcoded in that format currently).
+"""
 def get_stoplist(routes):
     if routes == None:
         print("route list must be provided when listing stops")
@@ -181,9 +192,9 @@ if __name__ == '__main__':
 
     # Check for output driver
     if outfmt == None or outfmt == 'rss':
-        driver = RSSDriver(title, desc, DEFAULT_LANG, url)
+        driver = RSSAlertDriver(title, desc, DEFAULT_LANG, url)
     elif outfmt == 'md':
-        driver = MarkdownDriver(title, desc, DEFAULT_LANG, url)
+        driver = MarkdownAlertDriver(title, desc, DEFAULT_LANG, url)
     else:
         print("No such output driver.")
         exit(0)
