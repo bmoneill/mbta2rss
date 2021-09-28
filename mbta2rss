@@ -193,3 +193,6 @@ if __name__ == '__main__':
         get_alerts(driver, routes, time)
     elif datatype == 'stops':
         get_stoplist(routes)
+    else:
+        print("No such data type.")
+        exit(0)
