@@ -70,11 +70,11 @@ class RSSAlertDriver:
         if len(header) > 80:
             header = header[:77] + "..."
 
-        cdata = '<h3>' + desc + '</h3>' + '<p>' + effect + '</p>'
+        content = "<pre>" + html.escape(desc) + "</pre>"
 
         print('<item>')
         print('<title>' + html.escape(header) + '</title>')
-        print('<description><![CDATA[' + html.escape(cdata) + ']]></description>')
+        print('<description>' + content + '</description>')
         print('<pubDate>' + date + '</pubDate>')
         print('<guid>' + guid + '</guid>')
         for category in categories:
