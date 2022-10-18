@@ -100,5 +100,5 @@ Please feel free to contribute. Send patches via email or submit a pull request.
 
 ## License
 
-Copyright (C) 2019-2021 Ben O'Neill <ben@benoneill.xyz>. License: MIT.
+Copyright (C) 2019-2021 Ben O'Neill <ben@oneill.sh>. License: MIT.
 See LICENSE for more details.
