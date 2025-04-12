@@ -14,6 +14,8 @@ Boston. [Demo](https://oneill.sh/apps/mbta).
 - [X] Convert stop lists to Markdown format.
 - [ ] Convert route schedules to CSV and Markdown format.
 - [ ] Export alerts and stop lists to CSV.
+- [ ] HTML output driver
+- [ ] Server for HTML and RSS
 
 ## Dependencies
 

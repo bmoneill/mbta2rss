@@ -1,5 +1,8 @@
 import html
 
+from dominate import document
+from dominate.tags import *
+
 DEFAULT_TITLE = 'Unofficial MBTA Alert Feed'
 DEFAULT_DESC = 'An unofficial feed for public transit alerts in the Boston area.'
 DEFAULT_LANG = 'en_us'
@@ -70,10 +73,10 @@ class RSSOutputDriver:
         print('<language>' + self.lang + '</language>')
         print('<link>' + self.url + '</link>')
 
-    """ Format and print alert """
+    """ Format and print alert TODO use dominate """
     def print_item(self, header, long_header='', desc='', effect='', date='',
             categories=[], guid=''):
-        content = "<pre>" + html.escape(long_header) + "\n\n" + html.escape(desc) + "</pre>"
+        content = "<pre>" + "\n\n" + html.escape(desc) + "</pre>"
 
         print('<item>')
         print('<title>' + html.escape(header) + '</title>')
@@ -83,6 +86,7 @@ class RSSOutputDriver:
         for category in categories:
             print('<category>' + category + '</category>')
         print('</item>')
+    
 
     """ Stuff to print after the main content """
     def print_end(self):
