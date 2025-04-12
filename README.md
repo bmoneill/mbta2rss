@@ -2,7 +2,7 @@
 
 This software utilizes the [MBTA API](https://www.mbta.com/developers/v3-api)
 to grab alerts and stop lists for public transit routes in Greater
-Boston. [Demo](https://benoneill.xyz/demos/mbta-rss).
+Boston. [Demo](https://oneill.sh/apps/mbta).
 
 ## Features (check means implemented)
 

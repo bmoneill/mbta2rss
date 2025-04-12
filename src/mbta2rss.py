@@ -1,87 +1,17 @@
 #!/usr/bin/env python3
 # File: mbta2rss
 # Description: This pulls down all queried MBTA alerts and prints them out.
-# Author: Ben O'Neill <ben@benoneill.xyz>
-# Copyright: Copyright (C) 2019-2021 Ben O'Neill <benoneill.xyz>. Licensed under
+# Author: Ben O'Neill <ben@oneill.sh>
+# Copyright: Copyright (C) 2019-2024 Ben O'Neill <ben@oneill.sh>. Licensed under
 # the GNU GPL v3.
 
-import argparse, os, requests, html
+import argparse
+import os
 from datetime import datetime
+import requests
 
 API_URL = 'https://api-v3.mbta.com/'
 API_KEY = ''
-DEFAULT_TITLE = 'Unofficial MBTA Alert Feed'
-DEFAULT_DESC = 'An unofficial feed for public transit alerts in the Boston area.'
-DEFAULT_LANG = 'en_us'
-DEFAULT_URL = 'https://github.com/darklands1/mbta-rss'
-DEFAULT_DATATYPE = 'alerts'
-
-"""
-Driver for printing Markdown alert output. This formats the data from the API
-to be semi-neatly displayed in basic Markdown
-"""
-class MarkdownAlertDriver:
-    def __init__(self, title=DEFAULT_TITLE, desc=DEFAULT_DESC,
-            lang=DEFAULT_LANG, url=DEFAULT_URL):
-        self.title = title
-        self.desc = desc
-        self.lang = lang
-        self.url = url
-    
-    """ Stuff to print before the main content """
-    def print_start(self):
-        print('# ' + title)
-        print(desc)
-
-    """ Format and print alert """
-    def print_item(self, header, long_header='', desc='', effect='', date='', categories=[], guid=''):
-        print('## ' + header + ' (added ' + date + ')')
-        print(long_header + '\n\n' + desc.replace('\n', '\n\n') + '\n\n')
-
-    """ Stuff to print after the main content (empty in this case but defined for consistency) """
-    def print_end(self):
-        pass
-
-"""
-Driver for printing RSS alert output. This formats the data from the API
-to be semi-neatly displayed as an RSS feed.
-"""
-class RSSAlertDriver:
-    def __init__(self, title=DEFAULT_TITLE, desc=DEFAULT_DESC,
-            lang=DEFAULT_LANG, url=DEFAULT_URL):
-        self.title = title
-        self.desc = desc
-        self.lang = lang
-        self.url = url
-    
-    """ Stuff to print before the main content """
-    def print_start(self):
-        print('<?xml version="1.0" encoding="utf-8"?>')
-        print('<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">')
-        print('<channel>')
-        print('<title>' + self.title + '</title>')
-        print('<description>' + self.desc + '</description>')
-        print('<language>' + self.lang + '</language>')
-        print('<link>' + self.url + '</link>')
-
-    """ Format and print alert """
-    def print_item(self, header, long_header='', desc='', effect='', date='',
-            categories=[], guid=''):
-        content = "<pre>" + html.escape(long_header) + "\n\n" + html.escape(desc) + "</pre>"
-
-        print('<item>')
-        print('<title>' + html.escape(header) + '</title>')
-        print('<description>' + content + '</description>')
-        print('<pubDate>' + date + '</pubDate>')
-        print('<guid>' + guid + '</guid>')
-        for category in categories:
-            print('<category>' + category + '</category>')
-        print('</item>')
-
-    """ Stuff to print after the main content """
-    def print_end(self):
-        print('</channel>')
-        print('</rss>')
 
 """ Sends a request to the API and return the JSON output """
 def retrieve_from_api(req):
@@ -197,7 +127,7 @@ if __name__ == '__main__':
         driver = MarkdownAlertDriver(title, desc, DEFAULT_LANG, url)
     else:
         print("No such output driver.")
-        exit(0)
+        exit(1)
 
     # Execute desired tool/function
     if datatype == 'alerts':
@@ -206,4 +136,4 @@ if __name__ == '__main__':
         get_stoplist(routes)
     else:
         print("No such data type.")
-        exit(0)
+        exit(1)
