@@ -1,0 +1,24 @@
+[project]
+name = "mbta-rss"
+version = "0.0.1"
+authors = [
+  { name="Ben O'Neill", email="ben@oneill.sh" },
+]
+description = "A small example package"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "dominate>=2.9.1",
+    "flask>=3.1.0",
+    "mbtaclient>=1.1.29"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/boneill02/mbta-rss"
+Issues = "https://github.com/boneill02/mbta-rss/issues"

@@ -1,0 +1,3 @@
+dominate >= 2.9.1
+flask >= 3.1.0
+mbtaclient >= 1.1.29
