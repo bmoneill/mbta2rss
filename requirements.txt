@@ -1,3 +1,3 @@
-dominate >= 2.9.1
 flask >= 3.1.0
+flask_bootstrap >= 3.3.7.1
 mbtaclient >= 1.1.29

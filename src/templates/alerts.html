@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% for a in alerts %}
+    <h2>{{ a.short_header }}</h2>
+    <p>{{ a.description }}</p>
+  </tr>
+{% endfor %}
+
+{% endblock %}
