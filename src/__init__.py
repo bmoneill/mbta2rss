@@ -2,6 +2,11 @@ import asyncio
 import logging
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
+from mbtaclient.client.mbta_client import MBTAClient
+from mbtaclient.models.mbta_alert import MBTAAlert
+from mbtaclient.models.mbta_route import MBTARoute
+from mbtaclient.models.mbta_schedule import MBTASchedule
+from mbtaclient.models.mbta_stop import MBTAStop
 from .mbtaclientwrapper import *
 
 logging.basicConfig(filename='mbtarss.log', level=logging.DEBUG)
@@ -27,8 +32,7 @@ def alerts(route):
 def alert(alert_id):
     """Alert single display route. Displays the contents of the alert with the given id"""
     a = asyncio.run(fetch_alerts({'id': alert_id}))[0]
-    stops = asyncio.run(fetch_stops({'id': '7545'}))[0]
-    #stops = asyncio.run(fetch_stops({'id': [e.stop_id for e in a.informed_entities]}))[0]
+    stops = asyncio.run(fetch_stops({'id': [e.stop_id for e in a.informed_entities]}))[0]
     return render_template("alert.html", alert=a, stops=stops)
 
 @app.route("/schedule/<route>")
