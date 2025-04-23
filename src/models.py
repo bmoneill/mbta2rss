@@ -1,4 +1,5 @@
 """DB Models and helpers"""
+import os
 from flask_security import RoleMixin, UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from flask_sqlalchemy.model import DefaultMeta
@@ -31,7 +32,7 @@ class User(BaseModel, UserMixin):
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
-    roles = db.relationship("Role", secondary=roles_users, backref=db.backref("users", lazy="dynamic"))
+    roles = db.relationship("Role", secondary=users_roles, backref=db.backref("users", lazy="dynamic"))
     tokens = db.relationship("OAuth2Token", back_populates="user")
 
 class Route(BaseModel):

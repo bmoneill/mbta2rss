@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for a in alerts %}
-    <h2><a href={{ '/alerts/' + a.id }}>{{ a.short_header }}</a></h2>
+    <h2><a href={{ '/alert/' + a.id }}>{{ a.short_header }}</a></h2>
     <p>{{ a.description }}</p>
 {% endfor %}
 

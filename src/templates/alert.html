@@ -1,7 +1,14 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h2>{{ alert.short_header }}</h2>
-<p>{{ alert.description }}</p>
+<h2>{{ alert.attributes.short_header }}</h2>
+<p>Description: {{ alert.attributes.description }}</p>
+<p>Service Effect: {{ alert.attributes.service_effect}}</p>
+<p>Affected Stations:</p>
+<ul>
+{% for s in stops %}
+    <li><a href={{ '/station/' + s.id }}>{{ s.attributes.name }}</a></h2>
+{% endfor %}
+</ul>
 <p>Timestamp: {{ alert.timestamp }}</p>
 {% endblock %}
