@@ -24,7 +24,7 @@ def index():
 @app.route("/alerts", defaults={'route': None})
 @app.route("/alerts/<route>")
 def alerts(route):
-    """Alerts index route. If route is not None only alerts on the specified route(s) will be displayed"""
+    """Alerts index route."""
     a = asyncio.run(fetch_alerts({} if route is None else {'route': route}))
     return render_template("alerts.html", alerts=a)
 
