@@ -1,0 +1,17 @@
+#!/bin/sh
+# File: headmail
+# Description: This adds a mail header to input.
+# Author: Ben O'Neill <ben@oneill.sh>
+# Copyright: Copyright (C) 2019-2021 Ben O'Neill <oneill.sh>. Licensed under
+# MIT License.
+
+from="$1"
+to="$2"
+
+[ -z "$from" ] && echo "A sender must be provided" 1>&2 && exit 1
+[ -z "$to" ] && echo "A recipient must be provided" 1>&2 && exit 1
+
+[ -z "$3" ] && subject="Unofficial MBTA Alert Digest" || subject="$3"
+
+printf "From: $from\nTo: $to\nSubject: $subject\n\n\n"
+cat
