@@ -2,30 +2,28 @@
 
 This software utilizes the [MBTA API](https://www.mbta.com/developers/v3-api)
 to grab alerts and stop lists for public transit routes in Greater
-Boston. [Demo](https://oneill.sh/apps/mbta).
+Boston.
 
-## Features (check means implemented)
+## Features
 
-- [X] Generate an RSS feed containing alerts, neatly formatted.
-- [X] Only include certain routes.
-- [X] Allow the user to use an API key.
-- [X] Export alerts to Markdown.
-- [X] Only include alerts active at a certain time.
-- [X] Convert stop lists to Markdown format.
-- [ ] Convert route schedules to CSV and Markdown format.
-- [ ] Export alerts and stop lists to CSV.
-- [ ] HTML output driver
-- [ ] Server for HTML and RSS
+* Generate an RSS feed containing alerts, neatly formatted.
+* Only include certain routes.
+* Allow the user to use an API key.
+* Export alerts to Markdown.
+* Only include alerts active at a certain time.
+* Convert stop lists to Markdown format.
 
 ## Dependencies
 
-* requests (`pip install requests`)
+* requests
 
 ## Installation
 
 Run the following as root:
 
-	make install
+```shell
+make install
+```
 
 ## Usage
 
@@ -59,29 +57,36 @@ environment variable `$APIKEY`. You can request one
 
 Add the following to your crontab:
 
-	0 * * * * APIKEY="$MYAPIKEY" /usr/bin/mbta2rss >$HOSTDIR/rss.xml
+```crontab
+0 * * * * APIKEY="$MYAPIKEY" /usr/bin/mbta2rss >$HOSTDIR/rss.xml
+```
 
 ### Emailing Digests
 
 An example of emailing a Markdown-formatted digest using the `headmail` filter
 script and `sendmail`:
 
-	APIKEY="$MYAPIKEY" mbta2rss -o md -r "Red,Green-E,66" -t "NOW" | headmail "$FROM" "$TO" | \
-		sendmail -a "$ACCOUNT" -t "$TO"
+```shell
+APIKEY="$MYAPIKEY" mbta2rss -o md -r "Red,Green-E,66" -t "NOW" | headmail "$FROM" "$TO" | \
+    sendmail -a "$ACCOUNT" -t "$TO"
+```
 
 If you wanted to convert it to HTML first, a Markdown to HTML filter must be
-used (like [smu](https://github.com/Gottox/smu):
+used (like [smu](https://github.com/Gottox/smu)):
 
-	APIKEY="$MYAPIKEY" mbta2rss -o md -r "Red,Green-E,66" -t "NOW" | smu | headmail "$FROM" "$TO" | \
-		sendmail -a "$MSMTPACCOUNT" -t "$TO"
+```shell
+APIKEY="$MYAPIKEY" mbta2rss -o md -r "Red,Green-E,66" -t "NOW" | smu | headmail "$FROM" "$TO" | \
+    sendmail -a "$MSMTPACCOUNT" -t "$TO"
+```
 
 ### Publishing Alerts
-	
+
 It is possible to make a HTML webpage (no CSS included by default) for the web
 using the Markdown output format and piping it into a Markdown to HTML filter.
-A live demo of this is available [here](https://benoneill.xyz/demos/mbta-rss/).
 
-	APIKEY="$MYAPIKEY" mbta2rss -o md | smu >out.html
+```shell
+APIKEY="$MYAPIKEY" mbta2rss -o md | smu >out.html
+```
 
 ## Important Notes
 
@@ -102,5 +107,5 @@ Please feel free to contribute. Send patches via email or submit a pull request.
 
 ## License
 
-Copyright (C) 2019-2021 Ben O'Neill <ben@oneill.sh>. License: MIT.
+Copyright (C) 2019-2025 Ben O'Neill <ben@oneill.sh>. License: MIT.
 See LICENSE for more details.
