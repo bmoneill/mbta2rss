@@ -6,7 +6,7 @@ from dominate.tags import *
 DEFAULT_TITLE = 'Unofficial MBTA Alert Feed'
 DEFAULT_DESC = 'An unofficial feed for public transit alerts in the Boston area.'
 DEFAULT_LANG = 'en_us'
-DEFAULT_URL = 'https://github.com/boneill02/mbta-rss'
+DEFAULT_URL = 'https://github.com/bmoneill/mbta-rss'
 DEFAULT_DATATYPE = 'alerts'
 
 class OutputDriver:
